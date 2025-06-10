@@ -5,13 +5,15 @@ namespace shibly\PasswordNotify\listeners;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request;
 use shibly\PasswordNotify\Notifications\PasswordChangedNotification;
 
 class PasswordUpdatedListener implements ShouldQueue
 {
-
     /**
-     * @param $eventName
+     * Handle model updated events.
+     *
+     * @param string $eventName
      * @param array $data
      * @return void
      */
@@ -23,9 +25,13 @@ class PasswordUpdatedListener implements ShouldQueue
         $passwordField = $config['password_field'];
 
         if ($user->wasChanged($passwordField)) {
-            // IMPORTANT: You must have stored the plaintext password temporarily elsewhere
-            if ($user->plain_password ?? false) {
-                $user->notify(new PasswordChangedNotification($user->plain_password));
+            // Try to grab the plain password directly from the current request input
+            $plainPassword = Request::input('new_password')
+                ?? Request::input('password')
+                ?? Request::input($passwordField);
+
+            if ($plainPassword) {
+                $user->notify(new PasswordChangedNotification($plainPassword));
             }
         }
     }
