@@ -1,14 +1,11 @@
-Here's a professional and appealing Markdown file (`README.md`) you can add to your GitHub repository, providing a clear guide on installation, configuration, and usage of your Laravel password notification package:
-
----
-
 # Laravel Password Notification Package
 
-[![Latest Version](https://img.shields.io/packagist/v/yourvendor/password-notify.svg)](https://packagist.org/packages/yourvendor/password-notify)
+[![Latest Version](https://img.shields.io/packagist/v/shibly/password-notify.svg)](https://packagist.org/packages/shibly/password-notify)
 [![PHP Version](https://img.shields.io/badge/php-8.x-blue.svg)](https://php.net)
 [![Laravel Version](https://img.shields.io/badge/laravel-11.x|12.x-orange.svg)](https://laravel.com)
 
-This Laravel package automatically sends notifications to users when their passwords are changed, including the new password in plain text.
+This Laravel package automatically sends notifications to users when their passwords are changed, including the new
+password in plain text.
 
 ---
 
@@ -17,7 +14,7 @@ This Laravel package automatically sends notifications to users when their passw
 You can easily install this package via Composer:
 
 ```bash
-composer require yourvendor/password-notify
+composer require shibly/password-notify
 ```
 
 ---
@@ -52,7 +49,8 @@ You can customize this field if your application uses a different naming convent
 
 ### Important Security Notice ⚠️
 
-**Sending plain-text passwords via email poses security risks.** Use this package only in controlled environments or with explicit user consent.
+**Sending plain-text passwords via email poses security risks.** Use this package only in controlled environments or
+with explicit user consent.
 
 ### Basic Integration
 
