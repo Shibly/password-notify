@@ -21,12 +21,9 @@ class PasswordUpdatedListener implements ShouldQueue
         $user = $data[0];
         $passwordField = config('passwordnotify.password_field', 'password');
 
-        // Check if the password was changed
+        // If the password field was changed, send a notification
         if ($user->wasChanged($passwordField)) {
-            // Check if plain_password was temporarily set in memory
-            if (isset($user->plain_password) && !empty($user->plain_password)) {
-                $user->notify(new PasswordChangedNotification($user->plain_password));
-            }
+            $user->notify(new PasswordChangedNotification());
         }
     }
 }

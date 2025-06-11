@@ -10,26 +10,17 @@ class PasswordChangedNotification extends Notification
 {
     use Queueable;
 
-    protected string $plainPassword;
-
-    public function __construct(string $plainPassword)
-    {
-        $this->plainPassword = $plainPassword;
-    }
-
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['mail'];
     }
 
-    public function toMail($notifiable)
+    public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
             ->subject('Your Password Has Been Changed')
-            ->greeting('Hello, ' . $notifiable->name . '!')
-            ->line('Your password has been successfully changed.')
-            ->line('Your new password is:')
-            ->line('**' . $this->plainPassword . '**')
-            ->line('If you did not change your password, please contact support immediately.');
+            ->greeting('Hello ' . $notifiable->name . ',')
+            ->line('This is to confirm that your account password has been successfully updated.')
+            ->line('If you did not request this change, please contact support immediately.');
     }
 }
