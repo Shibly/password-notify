@@ -4,8 +4,7 @@
 [![PHP Version](https://img.shields.io/badge/php-8.x-blue.svg)](https://php.net)
 [![Laravel Version](https://img.shields.io/badge/laravel-11.x|12.x-orange.svg)](https://laravel.com)
 
-This Laravel package automatically sends notifications to users when their passwords are changed, including the new
-password in plain text.
+This Laravel package automatically sends a notification to users when their password is changed. It does **not** store or email the new password.
 
 ---
 
@@ -47,29 +46,18 @@ You can customize this field if your application uses a different naming convent
 
 ## Usage
 
-### Important Security Notice ⚠️
-
-**Sending plain-text passwords via email poses security risks.** Use this package only in controlled environments or
-with explicit user consent.
-
-### Basic Integration
-
-When changing a user's password, temporarily store the plaintext password as follows:
+When changing a user's password, the notification will automatically be sent if the configured password field changes:
 
 ```php
 use Illuminate\Support\Facades\Hash;
 
-// Example of updating user password and triggering notification:
-$user = User::find($userId);
-$newPassword = 'MySecurePassword123';
-
-// Temporarily store the plaintext password to trigger notification
-$user->password = Hash::make($newPassword);
-$user->plain_password = $newPassword; // custom temporary attribute
-$user->save();
+$user = auth()->user();
+$user->update([
+    'password' => Hash::make('MySecurePassword123'),
+]);
 ```
 
-The package automatically listens for updates and sends the email notification to the user.
+You don't need to do anything else. The package listens for password changes and sends a notification automatically.
 
 ---
 
@@ -81,10 +69,6 @@ The user will receive a notification similar to:
 Hello, John Doe!
 
 Your password has been successfully changed.
-
-Your new password is:
-
-**MySecurePassword123**
 
 If you did not change your password, please contact support immediately.
 ```
@@ -116,4 +100,4 @@ Feel free to submit issues or pull requests to improve this package!
 
 ## License
 
-This package is open-source and licensed under the [MIT license](LICENSE.md).
+This package is open-source and licensed under the [MIT license].
